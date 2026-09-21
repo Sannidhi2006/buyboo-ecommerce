@@ -236,7 +236,7 @@ const ProductsPage = () => {
     api
       .get('/products', { params })
       .then((res) => {
-        const all = res.data?.products || res.products || [];
+        const all = res.data?.products || [];
         setProducts(all);
       })
       .catch((err) => setError(err.message || 'Failed to load products'))
