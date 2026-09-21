@@ -99,9 +99,7 @@ function App() {
               </Routes>
             </main>
 
-            <footer className="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500">
-              ApexStore India Platform — Full-Stack E-Commerce (Phase 4: Customer Storefront)
-            </footer>
+            
           </div>
         </CartProvider>
       </AuthProvider>
