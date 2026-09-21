@@ -33,8 +33,8 @@ const Navbar = () => {
   const navLinkClass = (active) =>
     `flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
       active
-        ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
-        : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+        ? 'bg-blue-50 text-blue-700 border border-blue-200'
+        : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
     }`;
 
   const adminLinkClass = (active, color = 'amber') => {
@@ -56,15 +56,15 @@ const Navbar = () => {
   };
 
   return (
-    <header className="border-b border-slate-800 backdrop-blur-md bg-slate-900/80 sticky top-0 z-50">
+    <header className="border-b border-slate-200 bg-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-3" id="navbar-logo-link">
-          <div className="p-2 bg-blue-600 rounded-xl shadow-lg shadow-blue-500/30 text-white">
+          <div className="p-2 bg-blue-600 rounded-lg text-white">
             <ShoppingBag className="w-5 h-5" />
           </div>
-          <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">
-            ApexStore India
+          <span className="text-xl font-bold tracking-tight text-slate-950">
+            Buyboo
           </span>
         </Link>
 
@@ -183,8 +183,8 @@ const Navbar = () => {
                 id="navbar-login-link"
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive('/login')
-                    ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                          ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                          : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
                 }`}
               >
                 <LogIn className="w-4 h-4" />

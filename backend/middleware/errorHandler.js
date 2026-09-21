@@ -38,9 +38,9 @@ const errorHandler = (err, req, res, next) => {
   }
 
   const statusCode = err.statusCode || (err.status ? parseInt(err.status, 10) : 500);
-  const message = err.message || 'Internal Server Error';
+  const message = statusCode >= 500 ? 'An unexpected server error occurred.' : 'Request could not be processed.';
 
-  return errorResponse(res, message, statusCode, err.stack);
+  return errorResponse(res, message, statusCode);
 };
 
 module.exports = errorHandler;

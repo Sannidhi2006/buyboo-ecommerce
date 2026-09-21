@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 const LoginPage = () => {
   const { login } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,14 +42,17 @@ const LoginPage = () => {
 
       // Redirect based on role
       if (user.role === 'ADMIN') {
+        showToast('Signed in as administrator.', 'success');
         navigate('/admin', { replace: true });
       } else {
         // If user was trying to reach a protected page, send them there
         const destination = location.state?.from?.pathname || '/';
+        showToast('Welcome back.', 'success');
         navigate(destination, { replace: true });
       }
     } catch (err) {
       setError(err.message || 'Invalid username or password.');
+      showToast(err.message || 'Invalid username or password.', 'error');
     } finally {
       setLoading(false);
     }
@@ -61,7 +66,7 @@ const LoginPage = () => {
           <div className="inline-flex p-3 bg-blue-600/20 text-blue-400 rounded-xl mb-3">
             <LogIn className="w-6 h-6" />
           </div>
-          <h1 className="text-2xl font-bold text-white">Sign in to ApexStore</h1>
+          <h1 className="text-2xl font-bold text-white">Sign in to Buyboo</h1>
           <p className="text-sm text-slate-400 mt-1">
             Enter your username and password to continue.
           </p>

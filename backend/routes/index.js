@@ -9,6 +9,7 @@ const productRoutes = require('./productRoutes');
 const cartRoutes = require('./cartRoutes');
 const orderRoutes = require('./orderRoutes');
 const userRoutes = require('./userRoutes');
+const adminRoutes = require('./adminRoutes');
 
 // Health check — Phase 1 (must never be removed)
 router.use('/health', healthRoutes);
@@ -25,5 +26,6 @@ router.use('/products', productRoutes);
 router.use('/cart', cartRoutes);
 router.use('/orders', orderRoutes);
 router.use('/users', userRoutes);
+router.use('/admin', adminRoutes);
 
 module.exports = router;

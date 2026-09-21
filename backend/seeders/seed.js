@@ -21,8 +21,12 @@ async function runSeed() {
   console.log('\n[1/4] Ensuring Demo Admin Account...');
   const adminUsername = process.env.SEED_ADMIN_USERNAME || 'admin';
   const adminEmail = process.env.SEED_ADMIN_EMAIL || 'admin@ecommerce.local';
-  const adminPassword = process.env.SEED_ADMIN_PASSWORD || 'Admin@12345';
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD;
   const adminPhone = process.env.SEED_ADMIN_PHONE || '9999999999';
+
+  if (!adminPassword) {
+    throw new Error('SEED_ADMIN_PASSWORD must be set before seeding an admin account.');
+  }
 
   let adminUser = await User.findOne({ where: { username: adminUsername } });
 
@@ -52,6 +56,24 @@ async function runSeed() {
   if (!adminCart) {
     await Cart.create({ userId: adminUser.id });
     console.log('  ✔ Provisioned cart for admin user.');
+  }
+
+  console.log('\n[1b/4] Ensuring sample customer accounts...');
+  const samplePassword = process.env.SEED_SAMPLE_USER_PASSWORD;
+  if (!samplePassword) {
+    throw new Error('SEED_SAMPLE_USER_PASSWORD must be set before seeding sample users.');
+  }
+  const sampleUsers = [
+    { username: process.env.SEED_SAMPLE_USER_ONE_USERNAME || 'demo_customer', email: process.env.SEED_SAMPLE_USER_ONE_EMAIL || 'demo.customer@example.com', phone: process.env.SEED_SAMPLE_USER_ONE_PHONE || '9000000001' },
+    { username: process.env.SEED_SAMPLE_USER_TWO_USERNAME || 'demo_shopper', email: process.env.SEED_SAMPLE_USER_TWO_EMAIL || 'demo.shopper@example.com', phone: process.env.SEED_SAMPLE_USER_TWO_PHONE || '9000000002' },
+  ];
+  for (const sample of sampleUsers) {
+    const [sampleUser] = await User.findOrCreate({
+      where: { username: sample.username },
+      defaults: { ...sample, password: samplePassword, role: 'USER' },
+    });
+    await Cart.findOrCreate({ where: { userId: sampleUser.id }, defaults: { userId: sampleUser.id } });
+    console.log(`  ✔ Sample USER: ${sampleUser.username} (${sampleUser.email})`);
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -256,7 +278,7 @@ async function runSeed() {
       price: 2799.0,
       stock: 30,
       description: 'A modern slim with room to move. Crafted from premium stretch denim with signature arcuate back pocket stitching.',
-      imageUrl: 'https://images.unsplash.com/photo-1542272604-780c96856592?auto=format&fit=crop&w=600&q=80',
+      imageUrl: '/uploads/levis-511-jeans.jpg',
       isActive: true,
     },
     {
@@ -536,6 +558,8 @@ async function runSeed() {
 
     if (created) {
       seededProductsCount++;
+    } else if (record.imageUrl !== p.imageUrl) {
+      await record.update({ imageUrl: p.imageUrl });
     }
   }
 

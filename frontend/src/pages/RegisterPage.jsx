@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Eye, EyeOff, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 
 // ─── Client-side validation helpers ────────────────────────────────────────
 const validateForm = ({ username, email, phone, password, confirmPassword }) => {
@@ -35,6 +36,7 @@ const validateForm = ({ username, email, phone, password, confirmPassword }) => 
 
 const RegisterPage = () => {
   const { register } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -79,9 +81,11 @@ const RegisterPage = () => {
       });
 
       setSuccessMsg('Account created successfully! Redirecting to login...');
+      showToast('Account created successfully.', 'success');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
+      showToast(err.message || 'Registration failed. Please try again.', 'error');
     } finally {
       setLoading(false);
     }
@@ -97,7 +101,7 @@ const RegisterPage = () => {
           </div>
           <h1 className="text-2xl font-bold text-white">Create your account</h1>
           <p className="text-sm text-slate-400 mt-1">
-            Join ApexStore India — your account is always a regular User.
+            Join Buyboo — your account is always a regular User.
           </p>
         </div>
 

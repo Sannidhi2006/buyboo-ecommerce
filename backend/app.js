@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -12,21 +13,25 @@ const notFoundHandler = require('./middleware/notFoundHandler');
 
 const app = express();
 
-// Enable CORS
-const allowedOrigins = [
-  process.env.CLIENT_URL || 'http://localhost:5173',
-  'http://localhost:3000',
-  'http://127.0.0.1:5173',
-];
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: 'cross-origin',
+    },
+  })
+);
+
+// Enable CORS only for the configured frontend origin.
+const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:5173';
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (like mobile apps, curl, postman)
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || origin === allowedOrigin) {
         return callback(null, true);
       }
-      return callback(null, true); // Permissive in development
+      return callback(new Error('Origin is not allowed by CORS.'));
     },
     credentials: true,
   })

@@ -3,6 +3,20 @@ const { Product, Category, Brand } = require('../models');
 const { successResponse, errorResponse } = require('../utils/responseHandler');
 const { generateUniqueSlug } = require('../utils/slugify');
 const storageService = require('../services/storageService');
+const parseNonNegativeDecimal = (value) => {
+  if (typeof value !== 'number' && typeof value !== 'string') return null;
+  const text = String(value).trim();
+  if (!/^\d+(\.\d+)?$/.test(text)) return null;
+  const parsed = Number(text);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
+};
+const parseNonNegativeInteger = (value) => {
+  if (typeof value !== 'number' && typeof value !== 'string') return null;
+  const text = String(value).trim();
+  if (!/^\d+$/.test(text)) return null;
+  const parsed = Number(text);
+  return Number.isSafeInteger(parsed) && parsed >= 0 ? parsed : null;
+};
 
 /**
  * Decorates product object with inStock, isOutOfStock, and numeric stock
@@ -231,8 +245,8 @@ const createProduct = async (req, res, next) => {
     if (price === undefined || price === null || price === '') {
       return errorResponse(res, 'Product price is required', 422);
     }
-    const parsedPrice = parseFloat(price);
-    if (isNaN(parsedPrice) || parsedPrice < 0) {
+    const parsedPrice = parseNonNegativeDecimal(price);
+    if (parsedPrice === null) {
       return errorResponse(res, 'Price must be a valid non-negative number', 422);
     }
 
@@ -240,8 +254,8 @@ const createProduct = async (req, res, next) => {
     if (stock === undefined || stock === null || stock === '') {
       return errorResponse(res, 'Stock quantity is required', 422);
     }
-    const parsedStock = parseInt(stock, 10);
-    if (isNaN(parsedStock) || parsedStock < 0) {
+    const parsedStock = parseNonNegativeInteger(stock);
+    if (parsedStock === null) {
       return errorResponse(res, 'Stock must be a valid non-negative integer', 422);
     }
 
@@ -341,8 +355,8 @@ const updateProduct = async (req, res, next) => {
 
     // Update price
     if (price !== undefined) {
-      const parsedPrice = parseFloat(price);
-      if (isNaN(parsedPrice) || parsedPrice < 0) {
+      const parsedPrice = parseNonNegativeDecimal(price);
+      if (parsedPrice === null) {
         return errorResponse(res, 'Price must be a valid non-negative number', 422);
       }
       product.price = parsedPrice.toFixed(2);
@@ -350,8 +364,8 @@ const updateProduct = async (req, res, next) => {
 
     // Update stock
     if (stock !== undefined) {
-      const parsedStock = parseInt(stock, 10);
-      if (isNaN(parsedStock) || parsedStock < 0) {
+      const parsedStock = parseNonNegativeInteger(stock);
+      if (parsedStock === null) {
         return errorResponse(res, 'Stock must be a valid non-negative integer', 422);
       }
       product.stock = parsedStock;

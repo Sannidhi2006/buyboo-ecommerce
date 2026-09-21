@@ -33,76 +33,76 @@ function App() {
     <Router>
       <AuthProvider>
         <CartProvider>
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white flex flex-col justify-between font-sans">
-          <Navbar />
+          <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white flex flex-col justify-between font-sans">
+            <Navbar />
 
-          <main className="flex-1 flex flex-col">
-            <Routes>
-              {/* ── Public / Storefront Routes (Phase 4) ──────────────── */}
-              <Route path="/" element={<StorefrontPage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/products/:id" element={<ProductDetailPage />} />
-              <Route
-                path="/cart"
-                element={<ProtectedRoute><CartPage /></ProtectedRoute>}
-              />
-              <Route
-                path="/checkout"
-                element={<ProtectedRoute><CheckoutPlaceholderPage /></ProtectedRoute>}
-              />
-              <Route path="/order-confirmation" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
-              <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
-              <Route path="/orders/:id" element={<ProtectedRoute><OrderDetailPage /></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <main className="flex-1 flex flex-col">
+              <Routes>
+                {/* ── Public / Storefront Routes (Phase 4) ──────────────── */}
+                <Route path="/" element={<StorefrontPage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/products/:id" element={<ProductDetailPage />} />
+                <Route
+                  path="/cart"
+                  element={<ProtectedRoute><CartPage /></ProtectedRoute>}
+                />
+                <Route
+                  path="/checkout"
+                  element={<ProtectedRoute><CheckoutPlaceholderPage /></ProtectedRoute>}
+                />
+                <Route path="/order-confirmation" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
+                <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
+                <Route path="/orders/:id" element={<ProtectedRoute><OrderDetailPage /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
 
-              {/* ── Auth Routes (Phase 2) ──────────────────────────────── */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/unauthorized" element={<UnauthorizedPage />} />
+                {/* ── Auth Routes (Phase 2) ──────────────────────────────── */}
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-              {/* ── Protected Admin Routes (Phase 3) ──────────────────── */}
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute adminOnly={true}>
-                    <AdminDashboardPlaceholder />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/products"
-                element={
-                  <ProtectedRoute adminOnly={true}>
-                    <AdminProductsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/categories"
-                element={
-                  <ProtectedRoute adminOnly={true}>
-                    <AdminCategoriesPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/brands"
-                element={
-                  <ProtectedRoute adminOnly={true}>
-                    <AdminBrandsPage />
-                  </ProtectedRoute>
-                }
-              />
+                {/* ── Protected Admin Routes (Phase 3) ──────────────────── */}
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminDashboardPlaceholder />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminProductsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/categories"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminCategoriesPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/brands"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminBrandsPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* ── Catch-all 404 ─────────────────────────────────────── */}
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </main>
+                {/* ── Catch-all 404 ─────────────────────────────────────── */}
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </main>
 
-          <footer className="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500">
-            ApexStore India Platform — Full-Stack E-Commerce (Phase 4: Customer Storefront)
-          </footer>
-        </div>
+            <footer className="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500">
+              ApexStore India Platform — Full-Stack E-Commerce (Phase 4: Customer Storefront)
+            </footer>
+          </div>
         </CartProvider>
       </AuthProvider>
     </Router>

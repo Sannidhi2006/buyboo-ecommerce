@@ -47,7 +47,7 @@ const AdminDashboardPlaceholder = () => {
               Welcome, <span className="text-amber-400">{currentUser?.username}</span>
             </h1>
             <p className="text-slate-400 text-sm mt-1 max-w-xl">
-              ApexStore Phase 3 administrative management suite. Maintain your catalog,
+              Buyboo administrative management suite. Maintain your catalog,
               safely edit brands & categories, and manage inventory stock levels.
             </p>
           </div>

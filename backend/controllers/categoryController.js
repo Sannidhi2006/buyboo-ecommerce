@@ -75,7 +75,7 @@ const createCategory = async (req, res, next) => {
     const { name, description } = req.body;
     let imageUrl = req.body.imageUrl || null;
 
-    if (!name || !name.trim()) {
+    if (typeof name !== 'string' || !name.trim()) {
       return errorResponse(res, 'Category name is required', 422);
     }
 
@@ -97,7 +97,7 @@ const createCategory = async (req, res, next) => {
     const category = await Category.create({
       name: trimmedName,
       slug,
-      description: description ? description.trim() : null,
+      description: description === undefined || description === null ? null : typeof description === 'string' ? description.trim() : null,
       imageUrl,
     });
 
@@ -126,6 +126,9 @@ const updateCategory = async (req, res, next) => {
     }
 
     let updatedSlug = category.slug;
+    if (name !== undefined && typeof name !== 'string') {
+      return errorResponse(res, 'Category name must be text.', 422);
+    }
     if (name && name.trim() && name.trim() !== category.name) {
       const trimmedName = name.trim();
       const duplicate = await Category.findOne({
@@ -140,6 +143,9 @@ const updateCategory = async (req, res, next) => {
     }
 
     if (description !== undefined) {
+      if (typeof description !== 'string' && description !== null) {
+        return errorResponse(res, 'Category description must be text.', 422);
+      }
       category.description = description ? description.trim() : null;
     }
 

@@ -240,6 +240,9 @@ const AdminProductsPage = () => {
           <p className="text-sm text-slate-400 mt-1 ml-10">
             Create, update, monitor inventory stock levels, and control active status.
           </p>
+          <p className="text-xs text-blue-300 mt-2 ml-10">
+            Admin access only. Changes are saved to the catalog database.
+          </p>
         </div>
 
         <button

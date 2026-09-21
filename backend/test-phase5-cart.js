@@ -47,8 +47,8 @@ const run = async () => {
     productB = await Product.create({ name: `Cart product B ${suffix}`, slug: `cart-product-b-${suffix}`, description: 'Cart test product', price: 250, stock: 5, categoryId: category.id, brandId: brand.id, imageUrl: '/uploads/test.png', isActive: true });
     userA = await User.create({ username: `cart_a_${suffix}`, email: `cart_a_${suffix}@test.local`, password: 'hash-not-used', phone: '9000000001', role: 'USER' });
     userB = await User.create({ username: `cart_b_${suffix}`, email: `cart_b_${suffix}@test.local`, password: 'hash-not-used', phone: '9000000002', role: 'USER' });
-    const tokenA = jwt.sign({ id: userA.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    const tokenB = jwt.sign({ id: userB.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const tokenA = jwt.sign({ id: userA.id, authVersion: userA.authVersion }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const tokenB = jwt.sign({ id: userB.id, authVersion: userB.authVersion }, process.env.JWT_SECRET, { expiresIn: '1h' });
     server = http.createServer(app);
     await new Promise((resolve) => server.listen(0, resolve));
 

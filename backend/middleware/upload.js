@@ -54,7 +54,7 @@ const handleImageUpload = (fieldName = 'image') => {
         if (err.code === 'INVALID_FILE_TYPE') {
           return errorResponse(res, err.message, 400);
         }
-        return errorResponse(res, `Image upload error: ${err.message}`, 400);
+        return errorResponse(res, 'Image upload could not be processed.', 400);
       }
       next();
     });

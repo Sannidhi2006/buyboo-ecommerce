@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { formatCurrency } from '../utils/formatters';
+import { useToast } from '../context/ToastContext';
 
 /* ─── Image helper ────────────────────────────────────────────────────────── */
 const getImageSrc = (url) => {
@@ -292,6 +293,7 @@ const CartPage = () => {
   const [clearError, setClearError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleClearCart = async () => {
     setClearing(true);
@@ -300,9 +302,11 @@ const CartPage = () => {
     try {
       await clearCart();
       setSuccessMsg('Cart cleared successfully.');
+      showToast('Cart cleared successfully.', 'success');
       setTimeout(() => setSuccessMsg(null), 3000);
     } catch (err) {
       setClearError(err.message || 'Failed to clear cart.');
+      showToast(err.message || 'Failed to clear cart.', 'error');
     } finally {
       setClearing(false);
     }

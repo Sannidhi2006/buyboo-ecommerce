@@ -75,7 +75,7 @@ const createBrand = async (req, res, next) => {
     const { name, description } = req.body;
     let logoUrl = req.body.logoUrl || null;
 
-    if (!name || !name.trim()) {
+    if (typeof name !== 'string' || !name.trim()) {
       return errorResponse(res, 'Brand name is required', 422);
     }
 
@@ -97,7 +97,7 @@ const createBrand = async (req, res, next) => {
     const brand = await Brand.create({
       name: trimmedName,
       slug,
-      description: description ? description.trim() : null,
+      description: description === undefined || description === null ? null : typeof description === 'string' ? description.trim() : null,
       logoUrl,
     });
 
@@ -124,6 +124,9 @@ const updateBrand = async (req, res, next) => {
       return errorResponse(res, 'Brand not found', 404);
     }
 
+    if (name !== undefined && typeof name !== 'string') {
+      return errorResponse(res, 'Brand name must be text.', 422);
+    }
     if (name && name.trim() && name.trim() !== brand.name) {
       const trimmedName = name.trim();
       const duplicate = await Brand.findOne({
@@ -137,6 +140,9 @@ const updateBrand = async (req, res, next) => {
     }
 
     if (description !== undefined) {
+      if (typeof description !== 'string' && description !== null) {
+        return errorResponse(res, 'Brand description must be text.', 422);
+      }
       brand.description = description ? description.trim() : null;
     }
 

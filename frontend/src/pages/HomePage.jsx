@@ -30,7 +30,7 @@ const HomePage = () => {
           Phase 1: Architecture & Skeleton Verified
         </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
-          Welcome to ApexStore India
+          Welcome to Buyboo
         </h1>
         <p className="text-slate-400 text-lg max-w-2xl mx-auto">
           Production full-stack e-commerce architecture powered by React, Express, and MySQL with Indian Rupee (₹) pricing.

@@ -25,6 +25,15 @@ const parseQuantity = (value) => {
   return null;
 };
 
+const parseId = (value) => {
+  if (typeof value === 'number' && Number.isSafeInteger(value) && value >= 1) return value;
+  if (typeof value === 'string' && /^\d+$/.test(value.trim())) {
+    const id = Number(value);
+    return Number.isSafeInteger(id) && id >= 1 ? id : null;
+  }
+  return null;
+};
+
 /* ─────────────────────────────────────────────────────────────────────────────
    Helper: build the full cart response payload for a given userId.
    Fetches cart + all items, joins current product data from DB (never trusts
@@ -101,7 +110,7 @@ const getCart = async (req, res) => {
     const payload = await buildCartPayload(req.user.id);
     return successResponse(res, payload, 'Cart retrieved successfully');
   } catch (err) {
-    return errorResponse(res, 'Failed to retrieve cart.', 500, err.message);
+    return errorResponse(res, 'Failed to retrieve cart.', 500);
   }
 };
 
@@ -122,10 +131,11 @@ const addItem = async (req, res) => {
     }
 
     // ── 2. Verify product exists ───────────────────────────────────────────
-    if (!productId) {
+    const parsedProductId = parseId(productId);
+    if (!parsedProductId) {
       return errorResponse(res, 'productId is required.', 400);
     }
-    const product = await Product.findByPk(productId);
+    const product = await Product.findByPk(parsedProductId);
     if (!product) {
       return errorResponse(res, 'Product not found.', 404);
     }
@@ -174,7 +184,7 @@ const addItem = async (req, res) => {
     const payload = await buildCartPayload(req.user.id);
     return successResponse(res, payload, 'Item added to cart.', 201);
   } catch (err) {
-    return errorResponse(res, 'Failed to add item to cart.', 500, err.message);
+    return errorResponse(res, 'Failed to add item to cart.', 500);
   }
 };
 
@@ -185,7 +195,8 @@ const addItem = async (req, res) => {
 ───────────────────────────────────────────────────────────────────────────── */
 const updateItem = async (req, res) => {
   try {
-    const cartItemId = parseInt(req.params.id, 10);
+    const cartItemId = parseId(req.params.id);
+    if (!cartItemId) return errorResponse(res, 'Cart item id must be a positive integer.', 400);
     const { quantity } = req.body;
 
     // Validate quantity
@@ -236,7 +247,7 @@ const updateItem = async (req, res) => {
     const payload = await buildCartPayload(req.user.id);
     return successResponse(res, payload, 'Cart item updated.');
   } catch (err) {
-    return errorResponse(res, 'Failed to update cart item.', 500, err.message);
+    return errorResponse(res, 'Failed to update cart item.', 500);
   }
 };
 
@@ -246,7 +257,8 @@ const updateItem = async (req, res) => {
 ───────────────────────────────────────────────────────────────────────────── */
 const removeItem = async (req, res) => {
   try {
-    const cartItemId = parseInt(req.params.id, 10);
+    const cartItemId = parseId(req.params.id);
+    if (!cartItemId) return errorResponse(res, 'Cart item id must be a positive integer.', 400);
 
     const cartItem = await CartItem.findByPk(cartItemId);
     if (!cartItem) {
@@ -264,7 +276,7 @@ const removeItem = async (req, res) => {
     const payload = await buildCartPayload(req.user.id);
     return successResponse(res, payload, 'Item removed from cart.');
   } catch (err) {
-    return errorResponse(res, 'Failed to remove cart item.', 500, err.message);
+    return errorResponse(res, 'Failed to remove cart item.', 500);
   }
 };
 
@@ -284,7 +296,7 @@ const clearCart = async (req, res) => {
     const payload = await buildCartPayload(req.user.id);
     return successResponse(res, payload, 'Cart cleared.');
   } catch (err) {
-    return errorResponse(res, 'Failed to clear cart.', 500, err.message);
+    return errorResponse(res, 'Failed to clear cart.', 500);
   }
 };
 

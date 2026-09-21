@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">Levi's 511 slim fit stretch jeans</title>
+  <desc id="desc">A pair of dark blue slim fit jeans on a light background</desc>
+  <rect width="800" height="800" fill="#f1f5f9"/>
+  <ellipse cx="400" cy="735" rx="220" ry="24" fill="#cbd5e1"/>
+  <path d="M270 95h260l52 155-72 70-42-102-18 442H350l-18-442-42 102-72-70z" fill="#163d70" stroke="#0f2d54" stroke-width="8"/>
+  <path d="M270 95h260l-22 72H292z" fill="#285b91"/>
+  <path d="M350 660h100" stroke="#87a9c9" stroke-width="5"/>
+  <path d="M332 218 250 340M468 218l82 122" stroke="#5b83aa" stroke-width="5" opacity=".8"/>
+  <path d="M292 167h216" stroke="#8fb0cc" stroke-width="4" stroke-dasharray="9 9"/>
+  <rect x="456" y="123" width="48" height="42" rx="4" fill="#c89445"/>
+  <path d="M466 133h28v22h-28z" fill="#f5d78f"/>
+</svg>
